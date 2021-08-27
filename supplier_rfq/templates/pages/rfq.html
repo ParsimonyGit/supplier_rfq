@@ -1,0 +1,142 @@
+{% extends "templates/web.html" %}
+
+{% block header %}
+<h1>{{ doc.name }}</h1>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/assets/frappe/js/lib/jquery/jquery.min.js"></script>	
+<script type="text/javascript" src="/assets/js/frappe-web.min.js?ver={{ build_version }}"></script>
+
+<script type="text/javascript" src="/assets/js/erpnext-web.min.js?ver={{ build_version }}"></script>
+<script type="text/javascript" src="/assets/js/control.min.js"></script>
+
+<script type="text/javascript" src="/assets/js/dialog.min.js"></script>
+<script type="text/javascript" src="/assets/js/moment-bundle.min.js"></script>
+<script type="text/javascript" src="/assets/js/bootstrap-4-web.min.js"></script>
+<script type="text/javascript" src="/assets/frappe/node_modules/vue/dist/vue.js"></script>
+/assets/frappe/js/frappe/form/controls/attach.js
+<script>
+	Vue.prototype.__ = window.__;
+	Vue.prototype.frappe = window.frappe;
+</script>
+<script type="text/javascript" src="/assets/js/web_form.min.js"></script>
+<script>{% include "templates/includes/rfq.js" %}</script>
+{% endblock %}
+
+{% block breadcrumbs %}
+	{% include "templates/includes/breadcrumbs.html" %}
+{% endblock %}
+
+{% block header_actions %}
+{% if doc.items %}
+<button class="btn btn-primary btn-submit"
+    type="button">
+    {{ _("Submit") }}</button>
+{% endif %}
+{% endblock %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-6">
+        <div class="rfq-supplier">{{ doc.supplier }}</div>
+	</div>
+    <div class="col-6 text-muted text-right h6">
+        {{ doc.get_formatted("transaction_date") }}
+    </div>
+</div>
+<div class="rfq-content" style="margin-top:15px">
+	<div id="order-container">
+			<div id="rfq-items">
+				<div class="row cart-item-header">
+					<div class="col-sm-5 col-12">
+						{{ _("Items") }}
+					</div>
+					<div class="col-sm-2 col-4 text-right">
+						{{ _("Required By") }}
+					</div>					
+					<div class="col-sm-1 col-4 text-right">
+						{{ _("Qty") }}
+					</div>
+					<div class="col-sm-2 col-4 text-right">
+						{{ _("Rate") }}
+					</div>
+					<div class="col-sm-2 col-4 text-right">
+						{{ _("Amount") }}
+					</div>
+				</div>
+				<hr>
+            {% if doc.items %}
+            <div class="rfq-items">
+				{% include "templates/includes/rfq/rfq_items.html" %}
+            </div>
+            {% endif %}
+		</div>
+        {% if doc.items %}
+		<div class="row grand-total-row">
+			<div class="col-9 text-right">{{ _("Grand Total") }}</div>
+			<div class="col-3 text-right">
+			{{doc.currency_symbol}}  <span class="tax-grand-total">0.0</span>
+			</div>
+		</div>
+        {% endif %}
+
+		<div class="row company-terms">
+			<div class="col-12">
+				<br><br>
+				<p class="text"><u>{{ _("Terms and Conditions: ") }}</u></p>
+				<div class="company-terms">{{ doc.terms }}</div>
+			</div>
+		</div>
+
+
+		<div class="row terms">
+			<div class="col-6">
+				<br><br>
+				<p class="text-muted small">{{ _("Supplier Notes: ") }}</p>
+				<textarea class="form-control terms-feedback" style="height: 100px;background-color:#C8E8EA;"></textarea>
+			</div>
+		</div>
+
+		<div class="row upload">
+			<div class="col-6">
+				<br><br>
+			
+				<button class="btn btn-default btn-sm btn-attach">{{ _("Vue Upload Attachment") }}</button>
+				</div>
+		</div>
+
+		<input type="file"     id="avatar" name="avatar">
+
+		{% if doc.rfq_links %}
+		<div class="row mt-5">
+			<div class="col-12">
+				<p class="text-muted small">{{ _("Supplier Quotations: ") }}</p>
+			
+					<div class="result">
+						{% for d in doc.rfq_links %}
+							<div class="web-list-item transaction-list-item quotations" idx="{{d.name}}">
+								<div class="row">
+									<div class="col-sm-6">
+										<span class="indicator gray">{{d.name}}</span>
+									</div>
+									<div class="col-sm-3">
+										<span class="small gray">{{d.status}}</span>
+									</div>
+									<div class="col-sm-3">
+										<span class="small gray">{{d.transaction_date}}</span>
+									</div>
+								</div>
+								<a class="transaction-item-link" href="/supplier-quotations/{{d.name}}">Link</a>
+							</div>
+						{% endfor %}
+					</div>
+				
+			</div>
+		</div>
+		{% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

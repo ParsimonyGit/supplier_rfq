@@ -1,4 +1,6 @@
-from . import __version__ as app_version
+from __future__ import unicode_literals
+from frappe import _
+
 
 app_name = "supplier_rfq"
 app_title = "Supplier Rfq"
@@ -49,6 +51,18 @@ app_license = "MIT"
 
 # Generators
 # ----------
+website_route_rules = [
+	{"from_route": "/rfq", "to_route": "Request for Quotation"},
+	{"from_route": "/rfq/<path:name>", "to_route": "rfq",
+		"defaults": {
+			"doctype": "Request for Quotation",
+			"parents": [{"label": _("Request for Quotation"), "route": "rfq"}]
+		}
+	}
+]
+# website_redirects = [
+#     {"source": "order", "target": "supplier_quot"},
+# ]
 
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]

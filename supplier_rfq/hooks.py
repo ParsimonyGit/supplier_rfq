@@ -58,11 +58,18 @@ website_route_rules = [
 			"doctype": "Request for Quotation",
 			"parents": [{"label": _("Request for Quotation"), "route": "rfq"}]
 		}
-	}
+	},
+	# {"from_route": "/supplier-quotations", "to_route": "Supplier Quotation"},
+	# {"from_route": "/supplier-quotations/<path:name>", "to_route": "supplier-submitted-quotation",
+	# 	"defaults": {
+	# 		"doctype": "Supplier Quotation",
+	# 		"parents": [{"label": _("Supplier Quotation"), "route": "supplier-submitted-quotation"}]
+	# 	}
+	# }	
 ]
-# website_redirects = [
-#     {"source": "order", "target": "supplier_quot"},
-# ]
+website_redirects = [
+    {"source": "supplier-quotations", "target": "supplier-submitted-quotation"}
+]
 
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]

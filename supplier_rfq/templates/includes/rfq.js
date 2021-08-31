@@ -20,6 +20,7 @@ rfq = Class.extend({
 		this.submit_rfq();
 		this.navigate_quotations();
 		this.upload_attachment();
+		// this.upload_file()
 	},
 
 	onfocus_select_all: function(){
@@ -65,8 +66,8 @@ rfq = Class.extend({
 	},
 
 	terms: function(){
-		$(".terms").on("change", ".terms-feedback", function(){
-			doc.terms = $(this).val();
+		$(".supplier-notes").on("change", ".supplier-notes-feedback", function(){
+			doc.supplier_notes = $(this).val();
 		})
 	},
 
@@ -85,8 +86,9 @@ rfq = Class.extend({
 			$('.tax-grand-total').text(format_number(doc.grand_total, doc.number_format, 2));
 		})
 	},
-
 	submit_rfq: function(){
+		var me = this;
+		doc.company_terms=document.getElementsByClassName('company-terms')[0].innerHTML
 		$('.btn-submit').click(function(){
 			frappe.freeze();
 			frappe.call({
@@ -100,23 +102,122 @@ rfq = Class.extend({
 					frappe.unfreeze();
 					if(r.message){
 						console.log(r,'r')
-						// upload file once doc is generated
-						frappe.call({
-							type: 'POST',
-							method: "frappe.handler.upload_file",
-							args: {
-								file_url: document.getElementById("avatar").files[0].name,
-								doctype: 'Supplier Quotation',
-								docname: r.message.name
-							}
-						});						
-						// $('.btn-sm').hide()
-						// window.location.href = "/supplier-quotations/" + encodeURIComponent(r.message);
+					
+
+					me.upload_file(r)		
+						
+						// frappe.call({
+						// 	type: 'POST',
+						// 	method: "frappe.handler.upload_file",
+						// 	args: {
+						// 		file_url: document.getElementById("avatar").files[0].name,
+						// 		doctype: 'Supplier Quotation',
+						// 		docname: r.message.name
+						// 	}
+						// });						
+						$('.btn-sm').hide()
+						window.location.href = "/supplier-submitted-quotation?name=" + encodeURIComponent(r.message);
 					}
 				}
 			})
 		})
+	},	
+	upload_file: function(r){
+						console.log('called')
+						// upload file once doc is generated
+							let file = $('#myfile').prop('files')[0];
+							file = {
+									file_obj: file,
+									name: file.name,
+									folder: 'Home/Attachments',
+									doctype: 'Supplier Quotation',
+									docname: r.message
+							}
+							console.log(file,'file')
+							
+							return new Promise((resolve, reject) => {
+									let xhr = new XMLHttpRequest();
+									xhr.upload.addEventListener('loadstart', (e) => {
+											file.uploading = true;
+									})
+									xhr.upload.addEventListener('progress', (e) => {
+											if (e.lengthComputable) {
+													file.progress = e.loaded;
+													file.total = e.total;
+											}
+									})
+									xhr.upload.addEventListener('load', (e) => {
+											file.uploading = false;
+											resolve();
+									})
+									xhr.addEventListener('error', (e) => {
+											file.failed = true;
+											reject();
+									})
+									xhr.onreadystatechange = () => {
+											if (xhr.readyState == XMLHttpRequest.DONE) {
+													if (xhr.status === 200) {
+															let r = null;
+															let file_doc = null;
+															try {
+																	r = JSON.parse(xhr.responseText);
+																	if (r.message.doctype === 'File') {
+																			file_doc = r.message;
+																	}
+															} catch (e) {
+																	r = xhr.responseText;
+															}
+			
+															file.doc = file_doc;
+			
+															if (this.on_success) {
+																	this.on_success(file_doc, r);
+															}
+													} else if (xhr.status === 403) {
+															let response = JSON.parse(xhr.responseText);
+															frappe.msgprint({
+																	title: __('Not permitted'),
+																	indicator: 'red',
+																	message: response._error_message
+															});
+													} else {
+															file.failed = true;
+															let error = null;
+															try {
+																	error = JSON.parse(xhr.responseText);
+															} catch (e) {
+																	// pass
+															}
+															// frappe.request.cleanup({}, error);   
+													}
+											}
+									}
+									xhr.open('POST', '/api/method/upload_file', true);
+									xhr.setRequestHeader('Accept', 'application/json');
+									console.log('frappe.csrf_token',frappe.csrf_token)
+									let form_data = new FormData();
+									console.log('file1'.file)
+									if (file.file_obj) {
+											form_data.append('file', file.file_obj, file.name);
+									}
+									form_data.append('is_private', +file.private);
+									form_data.append('folder', file.folder);
+			
+									if (file.file_url) {
+											form_data.append('file_url', file.file_url);
+									}
+			
+									if (file.doctype && file.docname) {
+											form_data.append('doctype', file.doctype);
+											form_data.append('docname', file.docname);
+									}
+									console.log('form_data',form_data)
+									xhr.setRequestHeader('X-Frappe-CSRF-Token', frappe.csrf_token);
+
+									xhr.send(form_data);
+							});
 	},
+
 
 	navigate_quotations: function() {
 		$('.quotations').click(function(){

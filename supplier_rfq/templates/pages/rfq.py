@@ -2,7 +2,7 @@
 # License: GNU General Public License v3. See license.txt
 
 from __future__ import unicode_literals
-from erpnext.buying.doctype.request_for_quotation.request_for_quotation import add_items
+# from erpnext.buying.doctype.request_for_quotation.request_for_quotation import add_items
 import frappe, json
 from frappe import _
 from frappe.utils import formatdate
@@ -72,7 +72,8 @@ def create_supplier_quotation(doc):
 		sq_doc = frappe.get_doc({
 			"doctype": "Supplier Quotation",
 			"supplier": doc.get('supplier'),
-			"terms": doc.get("terms"),
+			"supplier_notes": doc.get("supplier_notes"),
+			"terms": doc.get("company_terms"),
 			"supplier_uploaded_attachment_cf":doc.get("supplier_uploaded_attachment_cf"),
 			"company": doc.get("company"),
 			"currency": doc.get('currency') or get_party_account_currency('Supplier', doc.get('supplier'), doc.get('company')),
@@ -86,3 +87,30 @@ def create_supplier_quotation(doc):
 		return sq_doc.name
 	except Exception:
 		return None
+
+
+def add_items(sq_doc, supplier, items):
+	for data in items:
+		if data.get("qty") > 0:
+			if isinstance(data, dict):
+				data = frappe._dict(data)
+				print('-'*100)
+				print('data',data)
+			create_rfq_items(sq_doc, supplier, data)
+
+def create_rfq_items(sq_doc, supplier, data):
+	args = {}
+
+	for field in ['item_code', 'item_name', 'description', 'qty', 'rate', 'conversion_factor',
+		'warehouse', 'material_request', 'material_request_item', 'stock_qty','schedule_date']:
+		args[field] = data.get(field)
+
+	args.update({
+		"request_for_quotation_item": data.name,
+		"request_for_quotation": data.parent,
+		"project":frappe.db.get_value("Request for Quotation",data.parent, "project_cf"),
+		"supplier_part_no": frappe.db.get_value("Item Supplier",
+			{'parent': data.item_code, 'supplier': supplier}, "supplier_part_no")
+	})
+
+	sq_doc.append('items', args)		

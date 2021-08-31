@@ -81,20 +81,20 @@
 		</div>
         {% endif %}
 
-		<div class="row company-terms">
+		<div class="row company-terms-section">
 			<div class="col-12">
 				<br><br>
-				<p class="text"><u>{{ _("Terms and Conditions: ") }}</u></p>
+				<p class="text"><u>{{ _("Company Terms and Conditions: ") }}</u></p>
 				<div class="company-terms">{{ doc.terms }}</div>
 			</div>
 		</div>
 
 
-		<div class="row terms">
+		<div class="row supplier-notes">
 			<div class="col-6">
 				<br><br>
 				<p class="text-muted small">{{ _("Supplier Notes: ") }}</p>
-				<textarea class="form-control terms-feedback" style="height: 100px;background-color:#C8E8EA;"></textarea>
+				<textarea class="form-control supplier-notes-feedback" style="height: 100px;background-color:#C8E8EA;"></textarea>
 			</div>
 		</div>
 
@@ -106,7 +106,7 @@
 				</div>
 		</div>
 
-		<input type="file"     id="avatar" name="avatar">
+		<input type="file"     id="myfile" name="myfile">
 
 		{% if doc.rfq_links %}
 		<div class="row mt-5">
@@ -127,7 +127,7 @@
 										<span class="small gray">{{d.transaction_date}}</span>
 									</div>
 								</div>
-								<a class="transaction-item-link" href="/supplier-quotations/{{d.name}}">Link</a>
+								<a class="transaction-item-link" href="/supplier-submitted-quotation?name={{d.name}}">Link</a>
 							</div>
 						{% endfor %}
 					</div>

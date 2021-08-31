@@ -1,0 +1,36 @@
+[
+ {
+  "default_value": null,
+  "doc_type": "Supplier Quotation",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "terms",
+  "modified": "2021-08-31 05:29:15.949538",
+  "name": "Supplier Quotation-terms-label",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "label",
+  "property_type": "Data",
+  "row_name": null,
+  "value": "Company Terms and Conditions"
+ },
+ {
+  "default_value": null,
+  "doc_type": "Supplier Quotation",
+  "docstatus": 0,
+  "doctype": "Property Setter",
+  "doctype_or_field": "DocField",
+  "field_name": "terms",
+  "modified": "2021-08-31 05:39:22.350194",
+  "name": "Supplier Quotation-terms-read_only",
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "property": "read_only",
+  "property_type": "Check",
+  "row_name": null,
+  "value": "1"
+ }
+]

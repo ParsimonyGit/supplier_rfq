@@ -1,0 +1,62 @@
+{
+ "cards_label": "Supplier RFQ",
+ "category": "Modules",
+ "charts": [],
+ "creation": "2021-08-31 15:06:40.666904",
+ "developer_mode_only": 0,
+ "disable_user_customization": 0,
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "extends_another_page": 0,
+ "hide_custom": 0,
+ "icon": "non-profit",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "label": "Supplier RFQ",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Supplier RFQ",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Request for Quotation",
+   "link_to": "Request for Quotation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Supplier Quotation",
+   "link_to": "Supplier Quotation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Supplier Quotation Comparison",
+   "link_to": "Supplier Quotation Comparison",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2021-08-31 15:32:31.408295",
+ "modified_by": "Administrator",
+ "module": "Supplier Rfq",
+ "name": "Supplier RFQ",
+ "owner": "Administrator",
+ "pin_to_bottom": 0,
+ "pin_to_top": 1,
+ "shortcuts": []
+}

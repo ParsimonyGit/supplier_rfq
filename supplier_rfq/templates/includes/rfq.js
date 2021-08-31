@@ -4,7 +4,7 @@
 window.doc={{ doc.as_json() }};
 
 $(document).ready(function() {
-	new rfq();
+	window.rfw = new rfq();
 	doc.supplier = "{{ doc.supplier }}"
 	doc.currency = "{{ doc.currency }}"
 	doc.number_format = "{{ doc.number_format }}"
@@ -19,28 +19,12 @@ rfq = Class.extend({
 		this.terms();
 		this.submit_rfq();
 		this.navigate_quotations();
-		this.upload_attachment();
-		// this.upload_file()
 	},
 
 	onfocus_select_all: function(){
 		$("input").click(function(){
 			$(this).select();
 		})
-	},
-
-	upload_attachment: function(){
-		// vue js upload code
-		$('.btn-upload-attachment').click(function(){
-			new frappe.ui.FileUploader({
-				on_success: (file_doc) => {
-					console.log('file_doc',file_doc)
-					this.attachment_uploaded(file_doc);
-						doc.supplier_uploaded_attachment_cf = this.attachment_uploaded(file_doc);
-				}
-			});
-		})
-
 	},
 
 	change_qty: function(){
@@ -99,42 +83,32 @@ rfq = Class.extend({
 				},
 				btn: this,
 				callback: function(r){
-					frappe.unfreeze();
+				
 					if(r.message){
-						console.log(r,'r')
-					
-
-					me.upload_file(r)		
-						
-						// frappe.call({
-						// 	type: 'POST',
-						// 	method: "frappe.handler.upload_file",
-						// 	args: {
-						// 		file_url: document.getElementById("avatar").files[0].name,
-						// 		doctype: 'Supplier Quotation',
-						// 		docname: r.message.name
-						// 	}
-						// });						
+					frappe.freeze();
+					var upload_file_result= me.upload_file(r)		
+					upload_file_result.then((data)=>{
+						frappe.unfreeze();
 						$('.btn-sm').hide()
 						window.location.href = "/supplier-submitted-quotation?name=" + encodeURIComponent(r.message);
+					})	
 					}
+					frappe.unfreeze();
 				}
 			})
 		})
 	},	
 	upload_file: function(r){
-						console.log('called')
 						// upload file once doc is generated
-							let file = $('#myfile').prop('files')[0];
-							file = {
-									file_obj: file,
-									name: file.name,
-									folder: 'Home/Attachments',
-									doctype: 'Supplier Quotation',
-									docname: r.message
-							}
-							console.log(file,'file')
-							
+						let file = $('#supplier_uploaded_file').prop('files')[0];
+						file = {
+							file_obj: file,
+							name: file.name,
+							folder: 'Home/Attachments',
+							doctype: "Supplier Quotation",
+							docname: r.message
+						}
+											
 							return new Promise((resolve, reject) => {
 									let xhr = new XMLHttpRequest();
 									xhr.upload.addEventListener('loadstart', (e) => {
@@ -192,28 +166,28 @@ rfq = Class.extend({
 													}
 											}
 									}
-									xhr.open('POST', '/api/method/upload_file', true);
+									xhr.open('POST', '/api/method/supplier_rfq.templates.pages.rfq.upload_file', true);
+									
+
 									xhr.setRequestHeader('Accept', 'application/json');
-									console.log('frappe.csrf_token',frappe.csrf_token)
+									xhr.setRequestHeader('X-Frappe-CSRF-Token', frappe.csrf_token);
+						
 									let form_data = new FormData();
-									console.log('file1'.file)
 									if (file.file_obj) {
-											form_data.append('file', file.file_obj, file.name);
+										form_data.append('file', file.file_obj, file.name);
 									}
 									form_data.append('is_private', +file.private);
 									form_data.append('folder', file.folder);
-			
+						
 									if (file.file_url) {
-											form_data.append('file_url', file.file_url);
+										form_data.append('file_url', file.file_url);
 									}
-			
+						
 									if (file.doctype && file.docname) {
-											form_data.append('doctype', file.doctype);
-											form_data.append('docname', file.docname);
+										form_data.append('doctype', file.doctype);
+										form_data.append('docname', file.docname);
 									}
-									console.log('form_data',form_data)
-									xhr.setRequestHeader('X-Frappe-CSRF-Token', frappe.csrf_token);
-
+						
 									xhr.send(form_data);
 							});
 	},
@@ -221,8 +195,8 @@ rfq = Class.extend({
 
 	navigate_quotations: function() {
 		$('.quotations').click(function(){
-			name = $(this).attr('idx')
-			window.location.href = "/quotations/" + encodeURIComponent(name);
+			idx = $(this).attr('idx')
+			window.location.href = "/supplier-submitted-quotation?name=" + encodeURIComponent(idx);
 		})
 	}
 })

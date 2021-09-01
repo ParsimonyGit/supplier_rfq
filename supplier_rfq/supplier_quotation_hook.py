@@ -6,7 +6,7 @@ from frappe.utils import add_days, today, nowdate, get_date_str,now
 
 def onload(self,method):
     request_for_quotation=self.items[0].request_for_quotation
-    if self.name and self.docstatus==1  and request_for_quotation:
+    if self.name and self.docstatus!=2  and request_for_quotation:
         
         filters={
 'company': self.company, 
@@ -33,6 +33,6 @@ def onload(self,method):
         #         "installation_date":installation_note.inst_date or '',
         #         "remarks":installation_note.remarks or ''
         #     })  
-        # frappe.msgprint(msg=_("Installation details are updated."), indicator='green',alert=True)
+        frappe.msgprint(msg=_("Supplier quotation comparison is updated."), indicator='green',alert=True)
         # self.save(ignore_permissions=True)
         # frappe.db.commit()        

@@ -85,15 +85,23 @@ rfq = Class.extend({
 				callback: function(r){
 				
 					if(r.message){
-					frappe.freeze();
-					var upload_file_result= me.upload_file(r)		
-					upload_file_result.then((data)=>{
-						frappe.unfreeze();
-						$('.btn-sm').hide()
-						window.location.href = "/supplier-submitted-quotation?name=" + encodeURIComponent(r.message);
-					})	
-					}
-					frappe.unfreeze();
+						let file = $('#supplier_uploaded_file').prop('files')[0];
+						if (file==undefined){
+							frappe.unfreeze();
+							$('.btn-sm').hide()
+							window.location.href = "/supplier-submitted-quotation?name=" + encodeURIComponent(r.message);
+						}	else{
+							frappe.freeze();
+							var upload_file_result= me.upload_file(r)		
+							upload_file_result.then((data)=>{
+								frappe.unfreeze();
+								$('.btn-sm').hide()
+								window.location.href = "/supplier-submitted-quotation?name=" + encodeURIComponent(r.message);
+							})	
+							}
+							frappe.unfreeze();
+						}
+
 				}
 			})
 		})

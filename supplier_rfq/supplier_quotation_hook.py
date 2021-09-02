@@ -4,11 +4,14 @@ from frappe import _
 from erpnext.buying.report.supplier_quotation_comparison.supplier_quotation_comparison import execute 
 from frappe.utils import add_days, today, nowdate, get_date_str,now
 
-def onload(self,method):
-    request_for_quotation=self.items[0].request_for_quotation
-    if self.name and self.docstatus!=2  and request_for_quotation and len(self.supplier_quotation_comparisons)==0:
+
+@frappe.whitelist()
+def update_supplier_comparison(supplier_quotation_name):
+    supplier_quotation=frappe.get_doc('Supplier Quotation',supplier_quotation_name)
+    request_for_quotation=supplier_quotation.items[0].request_for_quotation
+    if supplier_quotation.name and supplier_quotation.docstatus!=2  and request_for_quotation:
         filters={
-                'company': self.company, 
+                'company': supplier_quotation.company, 
                 'from_date': get_date_str(frappe.db.get_value('Request for Quotation', request_for_quotation, 'transaction_date')),
                 'to_date': nowdate(), 
                 'supplier': [], 
@@ -22,9 +25,12 @@ def onload(self,method):
         if data:
             for row in data:
                 if row and len(row) >0:
-                    self.append("supplier_quotation_comparisons",row)
-                    self.save(ignore_permissions=True)
+                    supplier_quotation.append("supplier_quotation_comparisons",row)
+                    supplier_quotation.save(ignore_permissions=True)
                     frappe.db.commit() 
                     updated=True                
         if updated==True:
             frappe.msgprint(msg=_("Supplier quotation comparison is updated."), indicator='green',alert=True)
+
+    elif not request_for_quotation:
+        frappe.msgprint(msg=_("There is no supplier quotation to refresh."), indicator='yellow',alert=True)

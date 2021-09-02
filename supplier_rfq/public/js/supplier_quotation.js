@@ -4,7 +4,13 @@ frappe.ui.form.on('Supplier Quotation', {
 			if (frm.doc.docstatus!=2) {
 				frm.add_custom_button(__('Refresh Supplier Comparison Data.'),
 				function() {
-					frm.reload_doc();
+					
+					frappe.call('supplier_rfq.supplier_quotation_hook.update_supplier_comparison', {
+						supplier_quotation_name: frm.doc.name
+				}).then(r => {
+						frm.reload_doc();
+				})					
+				
 				}, __("Tools"));
 			}
 	},

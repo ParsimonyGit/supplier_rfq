@@ -67,7 +67,6 @@ def get_link_quotation(supplier, rfq):
 # This method is used to make supplier quotation from supplier's portal.
 @frappe.whitelist()
 def create_supplier_quotation(doc):
-	print('+'*100)
 	if isinstance(doc, string_types):
 		doc = json.loads(doc)
 

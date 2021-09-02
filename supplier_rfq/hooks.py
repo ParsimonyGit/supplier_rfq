@@ -103,11 +103,11 @@ after_migrate="supplier_rfq.migrations.after_migrations"
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
-	"Supplier Quotation": {
-		"onload": "supplier_rfq.supplier_quotation_hook.onload"
-	}
-}
+# doc_events = {
+# 	"Supplier Quotation": {
+# 		"onload": "supplier_rfq.supplier_quotation_hook.onload"
+# 	}
+# }
 
 # Scheduled Tasks
 # ---------------

@@ -34,3 +34,33 @@ def update_supplier_comparison(supplier_quotation_name):
 
     elif not request_for_quotation:
         frappe.msgprint(msg=_("There is no supplier quotation to refresh."), indicator='yellow',alert=True)
+
+
+@frappe.whitelist()
+def update_supplier_comparison_for_rfq(request_for_quotation_name):
+    request_for_quotation=frappe.get_doc('Request for Quotation',request_for_quotation_name)
+    if request_for_quotation.name and request_for_quotation.docstatus!=2  :
+        filters={
+                'company': request_for_quotation.company, 
+                'from_date': request_for_quotation.transaction_date,
+                'to_date': nowdate(), 
+                'supplier': [], 
+                'supplier_quotation': [], 
+                'request_for_quotation': request_for_quotation_name, 
+                'group_by': 'Group by Item', 
+                'include_expired': 1
+                }
+        columns, data, message, chart_data= execute(filters)
+        updated=False
+        if data:
+            for row in data:
+                if row and len(row) >0:
+                    request_for_quotation.append("supplier_quotation_comparisons",row)
+                    request_for_quotation.save(ignore_permissions=True)
+                    frappe.db.commit() 
+                    updated=True                
+        if updated==True:
+            frappe.msgprint(msg=_("Supplier quotation comparison is updated."), indicator='green',alert=True)
+
+    elif not request_for_quotation:
+        frappe.msgprint(msg=_("There is no supplier quotation to refresh."), indicator='yellow',alert=True)        

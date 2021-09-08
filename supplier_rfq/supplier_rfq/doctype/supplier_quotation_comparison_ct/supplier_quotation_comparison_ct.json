@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_copy": 1,
  "creation": "2021-09-01 05:36:00.451631",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -11,7 +12,9 @@
   "price",
   "stock_uom",
   "price_per_unit",
-  "quotation"
+  "quotation",
+  "column_break_9",
+  "remarks"
  ],
  "fields": [
   {
@@ -68,17 +71,28 @@
    "print_hide": 1
   },
   {
+   "columns": 1,
    "fieldname": "quotation",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Supplier Quotation",
    "options": "Supplier Quotation"
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2021-09-02 03:40:00.138162",
+ "modified": "2021-09-08 07:20:54.789991",
  "modified_by": "Administrator",
  "module": "Supplier Rfq",
  "name": "Supplier Quotation Comparison CT",

@@ -33,7 +33,10 @@ app_license = "MIT"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Supplier Quotation" : "public/js/supplier_quotation.js"}
+doctype_js = {
+	"Supplier Quotation" : "public/js/supplier_quotation.js",
+	"Request for Quotation" : "public/js/request_for_quotation.js",
+	}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -189,15 +192,17 @@ fixtures = [
       {
         "dt": "Custom Field", 
         "filters": [["name", "in", [
-"Supplier Quotation-supplier_uploaded_attachment_cf","Request for Quotation-project_cf","Supplier Quotation-supplier_notes","Supplier Quotation Item-schedule_date",
-"Supplier Quotation-supplier_comparison","Supplier Quotation-supplier_quotation_comparisons"
+"Supplier Quotation-supplier_uploaded_attachment_cf","Request for Quotation-project_cf",
+"Supplier Quotation-supplier_notes","Supplier Quotation Item-schedule_date",
+"Supplier Quotation-supplier_comparison","Supplier Quotation-supplier_quotation_comparisons",
+"Request for Quotation-supplier_quotation_comparisons","Request for Quotation-supplier_comparison_section"
 					]]]
       },	
 
       {
         "dt": "Property Setter", 
         "filters": [["name", "in", [
-"Supplier Quotation-terms-label","Supplier Quotation-terms-read_only"
+"Supplier Quotation-terms-label","Supplier Quotation-terms-read_only","Request for Quotation-main-title_field"
 					]]]
       }		   			     
 

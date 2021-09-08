@@ -192,10 +192,9 @@ fixtures = [
       {
         "dt": "Custom Field", 
         "filters": [["name", "in", [
-"Supplier Quotation-supplier_uploaded_attachment_cf","Request for Quotation-project_cf",
-"Supplier Quotation-supplier_notes","Supplier Quotation Item-schedule_date",
-"Supplier Quotation-supplier_comparison","Supplier Quotation-supplier_quotation_comparisons",
-"Request for Quotation-supplier_quotation_comparisons","Request for Quotation-supplier_comparison_section"
+"Request for Quotation-supplier_quotation_comparisons","Request for Quotation-supplier_comparison_section",
+"Supplier Quotation-supplier_comparison","Supplier Quotation-supplier_quotation_comparisons"
+
 					]]]
       },	
 
@@ -207,3 +206,6 @@ fixtures = [
       }		   			     
 
 ]
+
+# "Supplier Quotation-supplier_uploaded_attachment_cf","Request for Quotation-project_cf",
+# "Supplier Quotation-supplier_notes","Supplier Quotation Item-schedule_date",

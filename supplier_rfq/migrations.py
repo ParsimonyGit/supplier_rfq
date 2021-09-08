@@ -59,9 +59,7 @@ def supplier_rfq_create_custom_fields(**args):
   search_index= 0,
   translatable= 0,
   unique= 0
- )
- ],
-  'Request for Quotation':[
+ ),
  dict(
   allow_in_quick_entry= 0,
   allow_on_submit= 0,
@@ -94,10 +92,8 @@ def supplier_rfq_create_custom_fields(**args):
   search_index= 0,
   translatable= 0,
   unique= 0
- )
- ],
- 'Request for Quotation':[
-dict(
+ ),
+ dict(
   allow_in_quick_entry= 0,
   allow_on_submit= 1,
   bold= 0,
@@ -131,7 +127,7 @@ dict(
   translatable= 0,
   unique= 0
  )
- ],
+ ] ,
 'Supplier Quotation Item':[
  dict(
   allow_in_quick_entry= 0,
@@ -165,9 +161,7 @@ dict(
   search_index= 0,
   translatable= 0,
   unique= 0
- )
- ],
-'Supplier Quotation':[
+ ),
  dict(
   allow_in_quick_entry= 0,
   allow_on_submit= 0,
@@ -200,9 +194,7 @@ dict(
   search_index= 0,
   translatable= 0,
   unique= 0,
- )
- ],
-'Supplier Quotation':[
+ ),
  dict(
   allow_in_quick_entry= 0,
   allow_on_submit= 0,
@@ -235,9 +227,7 @@ dict(
   search_index= 0,
   translatable= 0,
   unique= 0
- )
- ],
- 'Supplier Quotation':[
+ ),
 dict(
   allow_in_quick_entry= 0,
   allow_on_submit= 1,
@@ -271,9 +261,7 @@ dict(
   search_index= 0,
   translatable= 0,
   unique= 0
- )
- ],
- 'Supplier Quotation':[
+ ),
 dict(
   allow_in_quick_entry= 0,
   allow_on_submit= 0,

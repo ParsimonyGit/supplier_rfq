@@ -127,7 +127,7 @@ def supplier_rfq_create_custom_fields(**args):
   translatable= 0,
   unique= 0
  )
- ] ,
+ ],
 'Supplier Quotation Item':[
  dict(
   allow_in_quick_entry= 0,
@@ -161,7 +161,9 @@ def supplier_rfq_create_custom_fields(**args):
   search_index= 0,
   translatable= 0,
   unique= 0
- ),
+ )
+ ],
+ 'Supplier Quotation':[
  dict(
   allow_in_quick_entry= 0,
   allow_on_submit= 0,

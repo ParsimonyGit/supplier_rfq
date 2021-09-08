@@ -23,7 +23,7 @@
   "doctype": "Property Setter",
   "doctype_or_field": "DocField",
   "field_name": "terms",
-  "modified": "2021-08-31 05:39:22.350194",
+  "modified": "2021-09-30 05:39:22.350194",
   "name": "Supplier Quotation-terms-read_only",
   "parent": null,
   "parentfield": null,

@@ -75,7 +75,7 @@ website_redirects = [
 
 # before_install = "supplier_rfq.install.before_install"
 # after_install = "supplier_rfq.install.after_install"
-after_migrate="supplier_rfq.migrations.after_migrations"
+after_migrate="supplier_rfq.migrations.after_migrate"
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
@@ -192,6 +192,8 @@ fixtures = [
       {
         "dt": "Custom Field", 
         "filters": [["name", "in", [
+"Supplier Quotation-supplier_uploaded_attachment_cf","Request for Quotation-project_cf",
+"Supplier Quotation-supplier_notes","Supplier Quotation Item-schedule_date",					
 "Request for Quotation-supplier_quotation_comparisons","Request for Quotation-supplier_comparison_section",
 "Supplier Quotation-supplier_comparison","Supplier Quotation-supplier_quotation_comparisons"
 
@@ -207,5 +209,3 @@ fixtures = [
 
 ]
 
-# "Supplier Quotation-supplier_uploaded_attachment_cf","Request for Quotation-project_cf",
-# "Supplier Quotation-supplier_notes","Supplier Quotation Item-schedule_date",

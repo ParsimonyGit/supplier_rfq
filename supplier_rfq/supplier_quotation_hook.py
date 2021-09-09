@@ -23,6 +23,7 @@ def update_supplier_comparison(supplier_quotation_name):
         columns, data, message, chart_data= execute(filters)
         updated=False
         if data:
+            supplier_quotation.supplier_quotation_comparisons=[]
             for row in data:
                 if row and len(row) >0:
                     supplier_quotation.append("supplier_quotation_comparisons",row)
@@ -31,9 +32,11 @@ def update_supplier_comparison(supplier_quotation_name):
                     updated=True                
         if updated==True:
             frappe.msgprint(msg=_("Supplier quotation comparison is updated."), indicator='green',alert=True)
+        else:
+            frappe.msgprint(msg=_("There is no new data for Supplier quotation comparison."), indicator='yellow',alert=True)
 
     elif not request_for_quotation:
-        frappe.msgprint(msg=_("There is no supplier quotation to refresh."), indicator='yellow',alert=True)
+        frappe.msgprint(msg=_("There is no supplier quotation to refresh."), indicator='red',alert=True)
 
 
 @frappe.whitelist()
@@ -53,6 +56,7 @@ def update_supplier_comparison_for_rfq(request_for_quotation_name):
         columns, data, message, chart_data= execute(filters)
         updated=False
         if data:
+            request_for_quotation.supplier_quotation_comparisons=[]
             for row in data:
                 if row and len(row) >0:
                     request_for_quotation.append("supplier_quotation_comparisons",row)
@@ -61,6 +65,7 @@ def update_supplier_comparison_for_rfq(request_for_quotation_name):
                     updated=True                
         if updated==True:
             frappe.msgprint(msg=_("Supplier quotation comparison is updated."), indicator='green',alert=True)
-
+        else:
+            frappe.msgprint(msg=_("There is no new data for Supplier quotation comparison."), indicator='yellow',alert=True)
     elif not request_for_quotation:
-        frappe.msgprint(msg=_("There is no supplier quotation to refresh."), indicator='yellow',alert=True)        
+        frappe.msgprint(msg=_("There is no supplier quotation to refresh."), indicator='red',alert=True)        

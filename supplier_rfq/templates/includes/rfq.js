@@ -114,6 +114,7 @@ rfq = Class.extend({
 							name: file.name,
 							folder: 'Home/Attachments',
 							doctype: "Supplier Quotation",
+							fieldname:'supplier_uploaded_attachment_cf',
 							docname: r.message
 						}
 											
@@ -194,6 +195,7 @@ rfq = Class.extend({
 									if (file.doctype && file.docname) {
 										form_data.append('doctype', file.doctype);
 										form_data.append('docname', file.docname);
+										form_data.append('fieldname', file.fieldname);
 									}
 						
 									xhr.send(form_data);
